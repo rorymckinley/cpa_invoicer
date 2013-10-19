@@ -4,6 +4,9 @@ CpaInvoicer::Application.routes.draw do
 
   get 'donors/search_form' => 'donors#search_form'
   get 'donors' => 'donors#index', as: :donors
+
+  get 'title_uploads/new' => 'title_uploads#new'
+  post 'title_uploads' => 'title_uploads#create', as: :title_uploads
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
