@@ -12,4 +12,12 @@ describe "uploading donors" do
     Donor.first.donor_no.should eql "100001"
     Donor.last.donor_no.should eql "100002"
   end
+
+  it "uploads donors that have non-ASCII characters" do
+    file = Rack::Test::UploadedFile.new(Rails.root.join('spec', 'fixtures', 'files', 'donors_dodgy.csv'), 'text/csv')
+
+    post "donor_upload", donor_upload: { contents: file }
+    response.code.should eql "200"
+    Donor.first.donor_no.should eql "102594"
+  end
 end

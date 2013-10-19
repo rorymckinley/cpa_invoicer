@@ -5,7 +5,8 @@ class DonorUpload
   attr_reader :contents
 
   def process(io)
-    CSV.parse(io.read, headers: true) do |record|
+    contents = io.read.force_encoding("UTF-8").encode
+    CSV.parse(contents, headers: true) do |record|
       next if record["INITIALS"].nil? and record["SURNAME"].nil?
 
       if donor = Donor.where(donor_no: record["DONOR_NO"]).first
