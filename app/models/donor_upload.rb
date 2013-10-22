@@ -9,10 +9,14 @@ class DonorUpload
     CSV.parse(contents, headers: true) do |record|
       next if record["INITIALS"].nil? and record["SURNAME"].nil?
 
+      title = Title.where(number: record["TITLE"]).first
+
+      raise "No title found for donor #{record["DONOR_NO"]}" unless title
+
       if donor = Donor.where(donor_no: record["DONOR_NO"]).first
-        donor.update_attributes(donor_no: record["DONOR_NO"], initials: record["INITIALS"], surname: record["SURNAME"])
+        donor.update_attributes(donor_no: record["DONOR_NO"], initials: record["INITIALS"], surname: record["SURNAME"], title: title.description)
       else
-        Donor.create(donor_no: record["DONOR_NO"], initials: record["INITIALS"], surname: record["SURNAME"])
+        Donor.create(donor_no: record["DONOR_NO"], initials: record["INITIALS"], surname: record["SURNAME"], title: title.description)
       end
     end
   end

@@ -4,6 +4,7 @@ class AddDonors < ActiveRecord::Migration
       t.string :donor_no
       t.string :initials
       t.string :surname
+      t.string :title
       t.timestamps
     end
   end
