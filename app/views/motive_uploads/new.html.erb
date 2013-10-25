@@ -1,0 +1,6 @@
+<h1>Motive Upload</h1>
+
+<%= form_for @upload do |f| %>
+  <%= f.file_field :contents %>
+  <%= submit_tag("Upload") %>
+<% end %>
