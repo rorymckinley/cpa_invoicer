@@ -2,8 +2,6 @@ require "spec_helper"
 
 describe "uploading donors" do
   before(:each) do
-    Title.delete_all
-    Donor.delete_all
     Title.create(number: 54, description: "Ms")
     Title.create(number: 4, description: "Mr")
     Title.create(number: 30, description: "Dr")
