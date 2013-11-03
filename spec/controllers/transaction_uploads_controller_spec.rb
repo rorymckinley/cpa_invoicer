@@ -13,9 +13,10 @@ describe TransactionUploadsController do
     assigns[:upload].should eql @upload
   end
 
-  it "passes the transaction data to the relevant model" do
+  it "passes the transaction data to the relevant model along with an instance of an upload date" do
     file = Rack::Test::UploadedFile.new(Rails.root.join('spec', 'fixtures', 'files', 'transactions.csv'), 'text/csv')
-    @upload.should_receive(:process).with(file)
+    TransactionUploadDate.should_receive(:cutoff_date).and_return(date = double)
+    @upload.should_receive(:process).with(file, date)
 
     post :create, transaction_upload: { contents: file }
   end
