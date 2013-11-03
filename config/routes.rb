@@ -10,6 +10,9 @@ CpaInvoicer::Application.routes.draw do
 
   get 'title_uploads/new' => 'title_uploads#new'
   post 'title_uploads' => 'title_uploads#create', as: :title_uploads
+
+  get 'transaction_uploads/new' => 'transaction_uploads#new'
+  post 'transaction_uploads' => 'transaction_uploads#create'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
