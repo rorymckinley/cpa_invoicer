@@ -38,6 +38,8 @@ describe TransactionUpload do
   end
 
   it "excludes any transactions that were created prior to the cutoff date" do
+    Donor.should_not_receive(:where)
+    Motive.should_not_receive(:where)
     Transaction.should_not_receive(:where)
 
     subject.process(io, Date.parse("2013-09-18"))
