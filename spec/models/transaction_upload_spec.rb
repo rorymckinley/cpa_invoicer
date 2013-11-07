@@ -45,10 +45,27 @@ describe TransactionUpload do
     subject.process(io, Date.parse("2013-09-18"))
   end
 
-  it "raises an error if no donor can be found for the transaction" do
-    Donor.should_receive(:where).and_return([])
+  context "no matching donor found" do
+    let(:contents) do
+      "T_index,DONOR_NO,RCPT_NO,TRAN_TYPE,DATE,AMOUNT,MOTIVE,THANK_LET,CATEGORY\n45017,103852,133541,R,9/17/2013,77,65,FALSE\n45018,9999,133542,R,9/17/2013,77,65,FALSE"
+    end
+    let(:io) { double(IO, read: contents) }
+    it "excludes the transaction" do
+      Donor.should_receive(:where).with(donor_no: "103852").and_return([])
+      Donor.should_receive(:where).with(donor_no: "9999").and_return([donor])
 
-    expect { subject.process io, cutoff_date }.to raise_error "No donor found"
+      subject.process(io, cutoff_date)
+      subject.exclusions.should eql ["133541"]
+    end
+
+    it "does not process an excluded transaction" do
+      Donor.should_receive(:where).with(donor_no: "103852").and_return([])
+      Donor.should_receive(:where).with(donor_no: "9999").and_return([donor])
+      Transaction.should_not_receive(:create).with(hash_including(receipt_number: "133541"))
+      Transaction.should_receive(:create).with(hash_including(receipt_number: "133542"))
+
+      subject.process(io, cutoff_date)
+    end
   end
 
   it "raises an error if no motive can  be found" do
@@ -56,6 +73,5 @@ describe TransactionUpload do
 
     expect { subject.process io, cutoff_date }.to raise_error "No motive found"
   end
-
 
 end

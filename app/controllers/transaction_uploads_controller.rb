@@ -6,6 +6,7 @@ class TransactionUploadsController < ApplicationController
   def create
     @upload = TransactionUpload.new
     @upload.process params[:transaction_upload][:contents], TransactionUploadDate.cutoff_date
-    head 200
+
+    @exclusions = @upload.exclusions
   end
 end
