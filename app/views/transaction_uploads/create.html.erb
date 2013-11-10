@@ -1,5 +1,5 @@
 <h1>Exclusions</h1>
 
 <% @exclusions.each do |excl| %>
-  <%= excl %><br />
+  Receipt number <%= excl[:receipt_number] %> excluded because <%= excl[:reason] %><br />
 <% end %>

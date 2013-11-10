@@ -12,10 +12,13 @@ class TransactionUpload
       next unless date >= cutoff_date
 
       unless donor = Donor.where(donor_no: rec["DONOR_NO"]).first
-        @exclusions << rec["RCPT_NO"]
+        @exclusions << { receipt_number: rec["RCPT_NO"], reason: 'no donor was found' }
         next
       end
-      raise "No motive found" unless motive = Motive.where(number: rec["MOTIVE"]).first
+      unless motive = Motive.where(number: rec["MOTIVE"]).first
+        @exclusions << { receipt_number: rec["RCPT_NO"], reason: 'no motive was found' }
+        next
+      end
 
       if transaction = Transaction.where(receipt_number: rec["RCPT_NO"]).first
         transaction.update_attributes(receipt_number: rec["RCPT_NO"], donor_id: donor.id, motive_id: motive.id, receipt_date: date, amount: rec["AMOUNT"].to_i)
