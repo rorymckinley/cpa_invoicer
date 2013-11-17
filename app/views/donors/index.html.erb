@@ -3,3 +3,10 @@
 Donor No: <%= @donor.donor_no %><br/>
 Initials: <%= @donor.initials %><br/>
 Surname: <%= @donor.surname %><br/>
+
+<% if @donor.transactions.any? %>
+  <b>Transactions:</b><p/>
+  <% @donor.transactions.each do |t| %>
+    Receipt Number: <%= t.receipt_number %> Amount: <%= t.amount %><p/>
+  <% end %>
+<% end %>
