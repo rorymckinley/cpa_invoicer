@@ -1,0 +1,7 @@
+<h1>Transaction Search</h1>
+
+<%= form_for(@transaction, method: :get) do |f| %>
+  <%= f.label :receipt_number, 'Receipt Number' %>
+  <%= f.text_field :receipt_number %><br />
+  <%= f.submit "Search for Transaction" %>
+<% end %>
