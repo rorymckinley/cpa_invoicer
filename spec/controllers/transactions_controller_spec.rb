@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe TransactionsController do
-  integrate_views
+  render_views
 
   it "provides a search form" do
     @transaction = Transaction.new
@@ -9,5 +9,12 @@ describe TransactionsController do
 
     get :search_form
     assigns[:transaction].should eql @transaction
+  end
+
+  it "searches for a transaction" do
+    Transaction.should_receive(:where).with(receipt_number: "999").and_return([transaction = double(Transaction).as_null_object])
+
+    post :search, transaction: { receipt_number: "999" }
+    assigns[:transaction].should eql transaction
   end
 end

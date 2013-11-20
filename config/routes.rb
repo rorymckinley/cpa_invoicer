@@ -2,7 +2,7 @@ CpaInvoicer::Application.routes.draw do
   get 'donor_upload/new' => 'donor_upload#new'
   post 'donor_upload' => 'donor_upload#create', as: :donor_uploads
 
-  get 'donors/search_form' => 'donors#search_form'
+  get 'donors/search_form' => 'donors#search_form', as: :donors_search_form
   get 'donors' => 'donors#index', as: :donors
 
   get 'motive_uploads/new' => 'motive_uploads#new'
@@ -11,8 +11,8 @@ CpaInvoicer::Application.routes.draw do
   get 'title_uploads/new' => 'title_uploads#new'
   post 'title_uploads' => 'title_uploads#create', as: :title_uploads
 
-  get 'transactions/search_form' => 'transactions#search_form'
-  get 'transactions' => 'transactions#index', as: :transactions
+  get 'transactions/search_form' => 'transactions#search_form', as: :transactions_search_form
+  get 'transactions' => 'transactions#search', as: :transactions
 
   get 'transaction_uploads/new' => 'transaction_uploads#new'
   post 'transaction_uploads' => 'transaction_uploads#create'
@@ -20,7 +20,7 @@ CpaInvoicer::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'menu#display'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

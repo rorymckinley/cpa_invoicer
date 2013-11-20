@@ -1,5 +1,6 @@
 <h1>Search Result</h1>
 
+<% if @donor %>
 Donor No: <%= @donor.donor_no %><br/>
 Initials: <%= @donor.initials %><br/>
 Surname: <%= @donor.surname %><br/>
@@ -10,3 +11,8 @@ Surname: <%= @donor.surname %><br/>
     Receipt Number: <%= t.receipt_number %> Amount: <%= t.amount %><p/>
   <% end %>
 <% end %>
+<% else %>
+  No Donors Found<br/>
+<% end %>
+
+<%= link_to "Search again", donors_search_form_path %>

@@ -1,0 +1,15 @@
+<h1>Search Result</h1>
+
+<% if @transaction %>
+Receipt Number: <%= @transaction.receipt_number %><br/>
+Date: <%= @transaction.receipt_date %><br/>
+Amount: <%= @transaction.amount %><br/>
+Donor: <%= "#{@transaction.donor.title} #{@transaction.donor.initials} #{@transaction.donor.surname}" %><br/>
+Motive: <%= @transaction.motive.description %>
+<% else %>
+No transactions found.
+<% end %>
+
+<p/>
+
+<%= link_to "Search Again", transactions_search_form_path %>
