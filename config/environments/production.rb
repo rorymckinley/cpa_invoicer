@@ -1,6 +1,11 @@
 CpaInvoicer::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Setup basic auth for Heroku
+  config.middleware.use '::Rack::Auth::Basic' do |u, p|
+    [u, p] == [ENV['BASIC_AUTH_USER'], ENV['BASIC_AUTH_PASSWORD']]
+  end
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
