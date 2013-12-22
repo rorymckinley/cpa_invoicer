@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20131026160946) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "donors", force: true do |t|
     t.string   "donor_no"
     t.string   "initials"
@@ -44,7 +41,7 @@ ActiveRecord::Schema.define(version: 20131026160946) do
     t.integer  "donor_id"
     t.integer  "motive_id"
     t.date     "receipt_date"
-    t.decimal  "amount"
+    t.decimal  "amount",         precision: 10, scale: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
