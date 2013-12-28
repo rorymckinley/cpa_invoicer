@@ -1,6 +1,6 @@
 require 'prawn'
 
-class PdfTester < ApplicationController
+class PdfTesterController < ApplicationController
   def show
     send_data build_pdf, filename: "stuff.pdf", type: "application/pdf"
   end
