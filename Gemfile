@@ -40,8 +40,7 @@ gem 'rails_12factor', group: :production
 # Use unicorn as the app server
 gem 'unicorn', "~> 4.7.0"
 
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
+gem 'prawn', '~> 0.13.1'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
@@ -50,8 +49,6 @@ gem 'rspec', '~> 2.14.1', group: [:development, :test]
 gem 'rspec-rails', '~> 2.14.0', group: [:development, :test]
 
 #Deploying
-gem 'capistrano', '~> 3.0.1'
-gem 'capistrano-bundler', '1.1.1'
-gem 'capistrano-rails', '1.1.0'
-
-ruby "2.0.0"
+gem 'capistrano', '~> 3.0.1', group: :development
+gem 'capistrano-bundler', '1.1.1', group: :development
+gem 'capistrano-rails', '1.1.0', group: :development

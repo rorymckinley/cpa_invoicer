@@ -8,6 +8,8 @@ CpaInvoicer::Application.routes.draw do
   get 'motive_uploads/new' => 'motive_uploads#new'
   post 'motive_uploads' => 'motive_uploads#create', as: :motive_uploads
 
+  get 'pdf_tester' => 'pdf_tester#show'
+
   get 'title_uploads/new' => 'title_uploads#new'
   post 'title_uploads' => 'title_uploads#create', as: :title_uploads
 
