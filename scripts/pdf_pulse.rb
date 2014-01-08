@@ -10,15 +10,58 @@ pdf = Prawn::Document.new(page_size:  "A4", page_layout: :portrait)
 pdf.stroke_bounds
 top_edge = pdf.bounds.height
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
-  pdf.font "Helvetica", size: 8
-  pdf.text "placeholder for letterhead image"
+  pdf.font "Helvetica", size: 10
+  pdf.bounding_box([0, 160], width: 180, height:160) do
+    pdf.font "Helvetica", size: 10, style: :bold
+    contact_details = [
+      ["Tel:", "021-535 3435"],
+      ["Fax:", "021-535 3434"],
+      ["Emergency:", "082 659 9599"],
+      ["Email", "info@carthorse.org.za"]
+    ]
+    pdf.pad(20) do
+      pdf.table(contact_details, width: 180) do |table|
+        table.cells.borders = []
+        table.cells.padding = 4
+      end
+    end
+  end
+  pdf.bounding_box([180, 160], width: 160, height:120) do
+    pdf.image "/home/rory/data/git/cpa_invoicer/scripts/cpa_logo_working2.jpg", position: :center, height: 120
+  end
+  pdf.bounding_box([180, 40], width: 160, height:40) do
+    pdf.pad(10) { pdf.text "005-761 NPO", align: :center, style: :bold }
+  end
+
+  pdf.bounding_box([340, 160], width: 183, height:160) do
+    pdf.font "Helvetica", size: 10, style: :bold
+    contact_details = [
+      ["92 Bofors Circle, Epping 2"],
+      ["PO Box 846, Eppindust, 7475"],
+      ["Cape Town, South Africa"],
+      ["www.carthorse.org.za"]
+    ]
+    pdf.pad(20) do
+      pdf.table(contact_details, width:183) do |table|
+        table.cells.borders = []
+        table.cells.padding = 4
+        table.before_rendering_page do |page|
+          page.column(-1).align =  :right
+        end
+      end
+    end
+  end
   pdf.stroke_bounds
 end
 top_edge -= 160
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:50) do
   pdf.font "Helvetica", size: 10
-  pdf.pad(5) { pdf.text "DONATION RECEIPT:" }
-  pdf.text "Issued in terms of Section 18A of the Income Tax Act of 1962. The donation received below will be used exclusively for the objects of the Cart Horse Protection Association in carrying out PBAs approved in terms of section 18A."
+  pdf.pad(5) do
+    pdf.indent 2 do
+      pdf.text "DONATION RECEIPT"
+      pdf.text "Issued in terms of Section 18A of the Income Tax Act of 1962. The donation received below will be used exclusively for the objects of the Cart Horse Protection Association in carrying out PBAs approved in terms of section 18A."
+    end
+  end
   pdf.stroke_bounds
 end
 top_edge -= 50
@@ -87,7 +130,7 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
     end
   end
   pdf.bounding_box([120,18], width: 403.28, height: 18) do
-    pdf.table([["R    1200.00"]], width:403.28) do |table|
+    pdf.table([["R    5000.00"]], width:403.28) do |table|
       table.cells.borders = []
       table.cells.padding = 2
       table.cells.align = :right
@@ -97,17 +140,29 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
   pdf.stroke_bounds
 end
 top_edge -= 18
-pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
+line_items = [
+  ["100016", "ZERO TOLERANCE", "R      300.00"],
+  ["100017", "ART AUCTION", "R      500.00"],
+  ["100018", "SHOES", "R      400.00"],
+  ["100019", "VET CARE", "R    1400.00"],
+  ["100025", "BEQUEST", "R      400.00"],
+  ["100028", "APRIL APPEAL", "R      400.00"],
+  ["100029", "GOLF DAY", "R      400.00"],
+  ["100018", "CORPORATE", "R      400.00"],
+  ["100018", "FIRLANDS-STABLING", "R      400.00"],
+  ["100018", "FOOT CARE PROJECT", "R      400.00"],
+]
+pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:200) do
   pdf.font "Helvetica", size: 10
-  pdf.bounding_box([0,160], width: 120, height: 160) do
+  pdf.bounding_box([0,200], width: 120, height: 200) do
     pdf.table([["NATURE OF DONATION"]]) do |table|
       table.cells.borders = []
       table.cells.padding = 2
     end
     pdf.stroke_bounds
   end
-  pdf.bounding_box([120,160], width: 403.28, height: 160) do
-    pdf.table([["100016", "ZERO TOLERANCE", "R      300.00"], ["100017", "ART AUCTION", "R      500.00"], ["100018", "SHOES", "R      400.00"]], width:403.28) do |table|
+  pdf.bounding_box([120,200], width: 403.28, height: 200) do
+    pdf.table(line_items, width:403.28) do |table|
       table.cells.borders = []
       table.cells.padding = 2
       table.before_rendering_page do |page|
@@ -118,49 +173,29 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
   end
   pdf.stroke_bounds
 end
-top_edge -= 100
-pdf.stroke_axis
-pdf.font "Helvetica", style: :bold
+top_edge -= 200
+pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
+  pdf.font "Helvetica", size: 10
+  pdf.bounding_box([0,18], width: 120, height: 18) do
+    pdf.table([["PBO NUMBER"]]) do |table|
+      table.cells.borders = []
+      table.cells.padding = 2
+    end
+    pdf.stroke_bounds
+  end
+  pdf.bounding_box([120,18], width: 403.28, height: 18) do
+    pdf.table([["930000749"]], width:403.28) do |table|
+      table.cells.borders = []
+      table.cells.padding = 2
+    end
+    pdf.stroke_bounds
+  end
+  pdf.stroke_bounds
+end
+top_edge -= 18
+# pdf.stroke_axis
 puts pdf.bounds.width
 puts pdf.bounds.height
-# pdf.text "CART HORSE PROTECTION ASSOCIATION", align: :center
-# pdf.move_down 10
-# pdf.text "DONATION RECEIPT", align: :center
-# pdf.bounding_box([0,725], width: 260) do
-#   pdf.font "Helvetica", size: 8
-#   pdf.text "PO BOX 846, EPPINDUST, 7475", align: :left
-#   pdf.text "info@carthorse.org.za", align: :left
-#   pdf.text "http://carthorse.org.za", align: :left
-# end
-# pdf.bounding_box([261,725], width: 260) do
-#   pdf.font "Helvetica", size: 8
-#   pdf.text "Fund Number: 005-761 NPO", align: :right
-#   pdf.text "PBO Number 930000749", align: :right
-# end
-#
-# pdf.bounding_box([0,675], width: 260) do
-#   pdf.font "Helvetica", size: 12
-#   pdf.text "Mrs Enid Blyton"
-#   pdf.text "The Square"
-#   pdf.text "Wareham"
-#   pdf.text "Dorset BH20 5EZ"
-#   pdf.text "United Kingdom"
-# end
-#
-# pdf.bounding_box([261,675], width: 260) do
-#   pdf.text "Receipt Number: 133559", align: :right
-#   pdf.text "Date: 24-09-2013", align: :right
-#   pdf.text "Donor Number: 100230", align: :right
-# end
-#
-# pdf.bounding_box([0,550], width: 523) do
-#   pdf.table([["Donation Type", "Amount"], ["Cash", "R 600"], ["Cheque", "R     0"], ["Total", "R 600"]], width: 523) do |t|
-#     t.before_rendering_page do |page|
-#       page.column(-1).align =  :right
-#       page.row(-1).style = :bold
-#     end
-#   end
-# end
 
 pdf.encrypt_document permissions: {modify_contents: false}
 File.open("proto.pdf", "wb") { |f| f.write pdf.render }
