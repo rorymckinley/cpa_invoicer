@@ -12,7 +12,7 @@ top_edge = pdf.bounds.height
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
   pdf.font "Helvetica", size: 10
   pdf.bounding_box([0, 160], width: 180, height:160) do
-    pdf.font "Helvetica", size: 10, style: :bold
+    pdf.font "Helvetica", size: 10
     contact_details = [
       ["Tel:", "021-535 3435"],
       ["Fax:", "021-535 3434"],
@@ -27,14 +27,14 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
     end
   end
   pdf.bounding_box([180, 160], width: 160, height:120) do
-    pdf.image "/home/rory/data/git/cpa_invoicer/scripts/cpa_logo_working2.jpg", position: :center, height: 120
+    pdf.image "/home/rory/data/git/cpa_invoicer/scripts/chpa_logo_crop.jpg", position: :center, height: 120
   end
   pdf.bounding_box([180, 40], width: 160, height:40) do
-    pdf.pad(10) { pdf.text "005-761 NPO", align: :center, style: :bold }
+    pdf.pad(10) { pdf.text "005-761 NPO", align: :center }
   end
 
   pdf.bounding_box([340, 160], width: 183, height:160) do
-    pdf.font "Helvetica", size: 10, style: :bold
+    pdf.font "Helvetica", size: 10
     contact_details = [
       ["92 Bofors Circle, Epping 2"],
       ["PO Box 846, Eppindust, 7475"],
@@ -152,16 +152,16 @@ line_items = [
   ["100018", "FIRLANDS-STABLING", "R      400.00"],
   ["100018", "FOOT CARE PROJECT", "R      400.00"],
 ]
-pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:200) do
+pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:290) do
   pdf.font "Helvetica", size: 10
-  pdf.bounding_box([0,200], width: 120, height: 200) do
+  pdf.bounding_box([0,290], width: 120, height: 290) do
     pdf.table([["NATURE OF DONATION"]]) do |table|
       table.cells.borders = []
       table.cells.padding = 2
     end
     pdf.stroke_bounds
   end
-  pdf.bounding_box([120,200], width: 403.28, height: 200) do
+  pdf.bounding_box([120,290], width: 403.28, height: 290) do
     pdf.table(line_items, width:403.28) do |table|
       table.cells.borders = []
       table.cells.padding = 2
@@ -173,7 +173,7 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:200) do
   end
   pdf.stroke_bounds
 end
-top_edge -= 200
+top_edge -= 290
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
   pdf.font "Helvetica", size: 10
   pdf.bounding_box([0,18], width: 120, height: 18) do
@@ -193,7 +193,28 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
   pdf.stroke_bounds
 end
 top_edge -= 18
-# pdf.stroke_axis
+pdf.bounding_box([0,top_edge], width: 250, height:98) do
+  pdf.bounding_box([0,98], width: 250, height: 80) do
+    pdf.image "/home/rory/data/git/cpa_invoicer/scripts/receipt_signature.jpg", vposition: :bottom, position: :center, height: 40
+  end
+  pdf.bounding_box([0,18], width: 250, height: 18) do
+    pdf.font "Helvetica", size: 10
+    pdf.text "Title of signatory goes here", align: :center
+  end
+end
+pdf.bounding_box([250,top_edge], width: 273, height:98) do
+  pdf.bounding_box([0,98], width: 273, height: 80) do
+    pdf.font "Helvetica", size: 10
+    pdf.pad(60) do
+      pdf.text "2014-01-20", align: :center
+    end
+  end
+  pdf.bounding_box([0,18], width: 273, height: 18) do
+    pdf.font "Helvetica", size: 10
+    pdf.text "Date", align: :center
+  end
+end
+pdf.stroke_axis
 puts pdf.bounds.width
 puts pdf.bounds.height
 
