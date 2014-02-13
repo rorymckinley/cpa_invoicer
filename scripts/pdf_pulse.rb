@@ -214,7 +214,7 @@ pdf.bounding_box([250,top_edge], width: 273, height:98) do
     pdf.text "Date", align: :center
   end
 end
-pdf.stroke_axis
+# pdf.stroke_axis
 puts pdf.bounds.width
 puts pdf.bounds.height
 
