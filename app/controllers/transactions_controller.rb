@@ -6,4 +6,8 @@ class TransactionsController < ApplicationController
   def search
     @transaction = Transaction.where(receipt_number: params[:transaction][:receipt_number]).first
   end
+
+  def unallocated
+    @transactions = Transaction.unallocated
+  end
 end

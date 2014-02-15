@@ -10,11 +10,15 @@ CpaInvoicer::Application.routes.draw do
 
   get 'pdf_tester' => 'pdf_tester#show'
 
+  get 'receipts' => 'receipts#index'
+
   get 'title_uploads/new' => 'title_uploads#new'
   post 'title_uploads' => 'title_uploads#create', as: :title_uploads
 
   get 'transactions/search_form' => 'transactions#search_form', as: :transactions_search_form
   get 'transactions' => 'transactions#search', as: :transactions
+
+  get 'transactions/unallocated' => "transactions#unallocated", as: :unallocated_transactions
 
   get 'transaction_uploads/new' => 'transaction_uploads#new'
   post 'transaction_uploads' => 'transaction_uploads#create'

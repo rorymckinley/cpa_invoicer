@@ -1,0 +1,3 @@
+<% @transactions.each do |t| %>
+  <div>Reference: <%= t.receipt_number %> Donor: <%= t.donor.title + t.donor.initials + t.donor.surname %> Date: <%= t.date %></div>
+<% end %>

@@ -7,6 +7,7 @@ development:
   adapter: mysql2
   database: cpa_dev
   username: cpa
+  password: P455w0rd
   pool: 5
   timeout: 5000
 
