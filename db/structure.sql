@@ -30,6 +30,11 @@ CREATE TABLE `donors` (
   `title` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  `address1` varchar(255) DEFAULT NULL,
+  `address2` varchar(255) DEFAULT NULL,
+  `town` varchar(255) DEFAULT NULL,
+  `postal_code` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -47,6 +52,23 @@ CREATE TABLE `motives` (
   `description` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `receipts`
+--
+
+DROP TABLE IF EXISTS `receipts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `receipts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `receipt_number` varchar(255) DEFAULT NULL,
+  `donor_name` varchar(255) DEFAULT NULL,
+  `donor_address` text,
+  `line_items` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -111,7 +133,7 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-02-15 13:56:55
+-- Dump completed on 2014-02-22 13:21:49
 INSERT INTO schema_migrations (version) VALUES ('20131015150746');
 
 INSERT INTO schema_migrations (version) VALUES ('20131019204041');
@@ -121,3 +143,7 @@ INSERT INTO schema_migrations (version) VALUES ('20131024150211');
 INSERT INTO schema_migrations (version) VALUES ('20131026160946');
 
 INSERT INTO schema_migrations (version) VALUES ('20140215115453');
+
+INSERT INTO schema_migrations (version) VALUES ('20140216200252');
+
+INSERT INTO schema_migrations (version) VALUES ('20140222111647');
