@@ -9,25 +9,49 @@ describe ReceiptsController do
   let(:transaction_1) { double(Transaction, donor: donor_1) }
   let(:transaction_2) { double(Transaction, donor: donor_1) }
   let(:transaction_3) { double(Transaction, donor: donor_2) }
-  let(:trr) { double(TransactionReceiptTransformer, persist_transformation: true) }
+  let(:trr) { double(TransactionReceiptTransformer, persist_transformation: true, transform: receipt) }
   before(:each) do
     Transaction.stub(:unallocated).and_return([transaction_1, transaction_2, transaction_3])
     TransactionReceiptTransformer.stub(:new).and_return(trr)
   end
 
-  it "builds receipts from unallocated transactions" do
-    trr.should_receive(:transform).with(donor_1, [transaction_1, transaction_2])
-    trr.should_receive(:transform).with(donor_2, [transaction_3])
+  context "#build" do
+    it "builds receipts from unallocated transactions" do
+      trr.should_receive(:transform).with(donor_1, [transaction_1, transaction_2])
+      trr.should_receive(:transform).with(donor_2, [transaction_3])
 
-    post :build
+      post :build
+    end
+
+    it "persists any receipts that were created" do
+      Transaction.stub(:unallocated).and_return([transaction_3])
+      trr.stub(:transform).and_return(receipt)
+
+      trr.should_receive(:persist_transformation).with(receipt, [transaction_3])
+      
+      post :build
+    end
+
+    it "redirects to the receipt listing page" do
+      post :build
+      
+      response.should redirect_to receipts_url
+    end  
   end
 
-  it "persists any receipts that were created" do
-    Transaction.stub(:unallocated).and_return([transaction_3])
-    trr.stub(:transform).and_return(receipt)
+  context "#index" do
+    let(:collection) { [] }
+    it "lists the last thirty receipts created" do
+      Receipt.should_receive(:latest).with(30).and_return(collection)
 
-    trr.should_receive(:persist_transformation).with(receipt, [transaction_3])
-    
-    post :build
+      get :index
+    end
+
+    it "passes the latest receipts to the template" do
+      Receipt.stub(:latest).and_return(collection)
+
+      get :index
+      assigns[:receipts].should eql collection
+    end
   end
 end

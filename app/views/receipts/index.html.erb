@@ -1,0 +1,16 @@
+<html>
+<head>
+  <title>Latest Receipts</title>
+</head>
+<body>
+  <table>
+    <th>
+      <td>Receipt Number</td><td>Donor Name</td><td></td>
+    <th>
+<% @receipts.each do |receipt| %>
+    <tr>
+      <td><%= receipt.receipt_number %></td><td><%= receipt.donor_name %></td>
+    </tr>
+<% end %>
+  </table>
+</html>

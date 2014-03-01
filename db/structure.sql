@@ -69,6 +69,8 @@ CREATE TABLE `receipts` (
   `donor_name` varchar(255) DEFAULT NULL,
   `donor_address` text,
   `line_items` text,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -133,7 +135,7 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-02-22 13:21:49
+-- Dump completed on 2014-03-01 22:51:24
 INSERT INTO schema_migrations (version) VALUES ('20131015150746');
 
 INSERT INTO schema_migrations (version) VALUES ('20131019204041');
@@ -147,3 +149,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140215115453');
 INSERT INTO schema_migrations (version) VALUES ('20140216200252');
 
 INSERT INTO schema_migrations (version) VALUES ('20140222111647');
+
+INSERT INTO schema_migrations (version) VALUES ('20140301204402');

@@ -6,7 +6,11 @@ class ReceiptsController < ApplicationController
 
       transformer.persist_transformation(receipt, transactions)
     end
-    
-    head 200
+
+    redirect_to :receipts
+  end
+
+  def index
+    @receipts = Receipt.latest(30)
   end
 end
