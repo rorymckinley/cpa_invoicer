@@ -11,6 +11,7 @@ CpaInvoicer::Application.routes.draw do
   get 'pdf_tester' => 'pdf_tester#show'
 
   get 'receipts' => 'receipts#index', as: :receipts
+  get 'receipts/build_form' => 'receipts#build_form'
   post 'receipts/build' => 'receipts#build', as: :receipt_build
 
   get 'title_uploads/new' => 'title_uploads#new'

@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <title>Build Receipts</title>
+  </head>
+  <body>
+    <%= form_tag("receipts/build", method: "post") do %>
+      <%= submit_tag "Build Invoices" %>
+    <% end %>
+    <h1>Unallocated Transactions</h1>
+<% @transactions.each do |transaction| %>
+    <div>Reference: <%= transaction.receipt_number %> Donor: <%= transaction.donor.fullname %> Date: <%= transaction.receipt_date %> </div>
+<% end %>
+  </body>
+</html>
+

@@ -1,4 +1,8 @@
 class ReceiptsController < ApplicationController
+  def build_form
+    @transactions = Transaction.unallocated
+  end
+  
   def build
     (Transaction.unallocated.group_by { |t| t.donor }).each do |donor,transactions|
       transformer = TransactionReceiptTransformer.new

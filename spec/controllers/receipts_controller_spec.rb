@@ -15,6 +15,23 @@ describe ReceiptsController do
     TransactionReceiptTransformer.stub(:new).and_return(trr)
   end
 
+  context "#build_form" do
+    let(:transaction) { double(Transaction).as_null_object }
+    
+    it "gets a list of unallocated transactions" do
+      Transaction.should_receive(:unallocated).and_return([transaction])
+
+      get :build_form
+    end
+
+    it "passes the unallocated transactions to the view" do
+      Transaction.stub(:unallocated).and_return([transaction])
+
+      get :build_form
+      
+      assigns[:transactions].should eql [transaction]
+    end
+  end
   context "#build" do
     it "builds receipts from unallocated transactions" do
       trr.should_receive(:transform).with(donor_1, [transaction_1, transaction_2])
