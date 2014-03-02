@@ -11,7 +11,7 @@ class ReceiptsController < ApplicationController
       transformer.persist_transformation(receipt, transactions)
     end
 
-    redirect_to :receipts
+    redirect_to protocol: "https://", controller: "receipts", action: "index"
   end
 
   def index

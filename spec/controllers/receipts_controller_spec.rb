@@ -51,8 +51,8 @@ describe ReceiptsController do
 
     it "redirects to the receipt listing page" do
       post :build
-      
-      response.should redirect_to receipts_url
+
+      response.should redirect_to protocol: "https://", controller: "receipts", action: "index"
     end  
   end
 
