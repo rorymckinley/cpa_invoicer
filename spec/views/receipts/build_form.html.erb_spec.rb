@@ -25,6 +25,6 @@ describe "receipts/build_form" do
 
     render
 
-    rendered.should match /action="receipts\/build"/
+    rendered.should match /action="\/receipts\/build"/
   end
 end
