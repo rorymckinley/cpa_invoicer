@@ -9,7 +9,7 @@
     <th>
 <% @receipts.each do |receipt| %>
     <tr>
-      <td><%= receipt.receipt_number %></td><td><%= receipt.donor_name %></td>
+      <td><%= receipt.receipt_number %></td><td><%= receipt.donor_name %></td><td><%= link_to "Show", receipt_path(receipt) %></td>
     </tr>
 <% end %>
   </table>
