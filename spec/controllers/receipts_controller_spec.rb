@@ -71,4 +71,19 @@ describe ReceiptsController do
       assigns[:receipts].should eql collection
     end
   end
+
+  context "#show" do
+    it "generates a pdf version of the requested invoice" do
+      generator = ReceiptPdfGenerator.new
+      Receipt.should_receive(:find).with(999666).and_return(receipt)
+      ReceiptPdfGenerator.stub(:new).and_return(generator)
+      generator.should_receive(:generate).with(receipt)
+
+      get :show, id: 999666
+    end
+
+    it "returns the generated pdf" do
+      pending
+    end
+  end
 end

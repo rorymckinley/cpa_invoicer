@@ -17,4 +17,13 @@ class ReceiptsController < ApplicationController
   def index
     @receipts = Receipt.latest(30)
   end
+
+  def show
+    receipt = Receipt.find(params[:id].to_i)
+    ReceiptPdfGenerator.new.generate(receipt)
+    
+    head 200
+  end
 end
+
+
