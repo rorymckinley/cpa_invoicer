@@ -21,7 +21,7 @@ class ReceiptPdfGenerator
         end
       end
       pdf.bounding_box([180, 160], width: 160, height:120) do
-        pdf.image "/home/rory/data/git/cpa_invoicer/scripts/chpa_logo_crop.jpg", position: :center, height: 120
+        pdf.image File.join(Rails.root, "lib", "prawn_support", "chpa_logo_crop.jpg"), position: :center, height: 120
       end
       pdf.bounding_box([180, 40], width: 160, height:40) do
         pdf.pad(10) { pdf.text "005-761 NPO", align: :center }
@@ -189,7 +189,7 @@ class ReceiptPdfGenerator
     top_edge -= 18
     pdf.bounding_box([0,top_edge], width: 250, height:98) do
       pdf.bounding_box([0,98], width: 250, height: 80) do
-        pdf.image "/home/rory/data/git/cpa_invoicer/scripts/receipt_signature.jpg", vposition: :bottom, position: :center, height: 40
+        pdf.image File.join(Rails.root, "lib", "prawn_support", "receipt_signature.jpg"), vposition: :bottom, position: :center, height: 40
       end
       pdf.bounding_box([0,18], width: 250, height: 18) do
         pdf.font "Helvetica", size: 10
