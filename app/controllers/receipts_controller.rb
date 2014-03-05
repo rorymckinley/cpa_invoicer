@@ -20,9 +20,9 @@ class ReceiptsController < ApplicationController
 
   def show
     receipt = Receipt.find(params[:id].to_i)
-    ReceiptPdfGenerator.new.generate(receipt)
+    generator = ReceiptPdfGenerator.new
     
-    head 200
+    send_data generator.generate(receipt), type: "application/pdf"
   end
 end
 
