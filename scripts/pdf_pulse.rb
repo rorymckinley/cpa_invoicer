@@ -6,11 +6,97 @@ Bundler.setup
 require 'prawn'
 require 'prawn/measurement_extensions'
 
+
+class Box
+  def initialize(pdf, options)
+    @pdf = pdf
+    @position = options[:position]
+    @dimensions = options[:dimensions]
+  end
+
+  def add_contents(contents)
+    @contents = contents
+  end
+
+  def render
+    @pdf.bounding_box(@position, @dimensions) do
+      @contents.render
+    end
+  end
+  
+end
+
+class Padding
+  def initialize(pdf, options)
+    @pdf = pdf
+    @padding = options[:padding]
+  end
+
+  def add_contents(contents)
+    @contents = contents
+  end
+
+  def render
+    @pdf.pad(@padding) { @contents.render }
+  end
+end
+
+class Table
+  def initialize(pdf, options)
+    @pdf = pdf
+    @width = options[:width]
+    @cell_borders = options[:cell][:borders]
+    @cell_padding = options[:cell][:padding]
+  end
+
+  def add_contents(contents)
+    @contents = contents
+  end
+
+  def render
+    @pdf.table(@contents, width: @width) do |table|
+      table.cells.borders = []
+      table.cells.padding = @cell_padding
+    end
+  end
+end
+contact_details = [
+                   ["Tel:", "021-535 3435"],
+                   ["Fax:", "021-535 3434"],
+                   ["Emergency:", "082 659 9599"],
+                   ["Email", "info@carthorse.org.za"]
+                  ]
+config = { class: Box, options: { position: [0,160], dimensions: { width: 180, height: 160} }, content: { class: Padding, options: { padding: 20 }, content: { class: Table, options: { width: 180, cell: { borders: false, padding: 4 } }, content: contact_details  }}}
+
+def builder(pdf, config)
+  instance = config[:class].new pdf, config[:options]
+  if config[:content].respond_to? :has_key? and config[:content].has_key? :class
+    instance.add_contents builder(pdf, config[:content])
+  else
+    instance.add_contents config[:content]
+  end
+  instance
+end
+
 pdf = Prawn::Document.new(page_size:  "A4", page_layout: :portrait)
+=begin
+table = Table.new(pdf, width: 180, cell: { borders: false, padding: 4 })
+table.add_contents contact_details
+
+padding = Padding.new(pdf, 20)
+padding.add_contents(table)
+
+box = Box.new(pdf, [0,160], width: 180, height: 160)
+box.add_contents padding
+=end
+box2 = builder(pdf, config)
+
 pdf.stroke_bounds
 top_edge = pdf.bounds.height
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
   pdf.font "Helvetica", size: 10
+  box2.render
+=begin
   pdf.bounding_box([0, 160], width: 180, height:160) do
     pdf.font "Helvetica", size: 10
     contact_details = [
@@ -26,6 +112,7 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
       end
     end
   end
+=end
   pdf.bounding_box([180, 160], width: 160, height:120) do
     pdf.image "/home/rory/data/git/cpa_invoicer/scripts/chpa_logo_crop.jpg", position: :center, height: 120
   end
