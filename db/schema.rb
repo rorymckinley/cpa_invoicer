@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 20140301204402) do
     t.integer  "donor_id"
     t.integer  "motive_id"
     t.date     "receipt_date"
-    t.decimal  "amount",         precision: 10, scale: 0
+    t.decimal  "amount",         precision: 15, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "receipt_id"

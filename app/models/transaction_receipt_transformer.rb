@@ -15,7 +15,7 @@ class TransactionReceiptTransformer
 
   def generate_line_items(transactions)
     transactions.inject([]) do |memo,t|
-      memo << [t.reference_number, t.description, t.amount]
+      memo << [t.reference_number, t.description, t.amount.to_s]
     end
   end
   private :generate_line_items
