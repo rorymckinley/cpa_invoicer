@@ -163,8 +163,8 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:290) do
 end
 top_edge -= 290
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
-  pdf.bounding_box([0,18], width: 120, height: 18) do |box|
-    box.table([["PBO NUMBER"]]) do |table|
+  pdf.bounding_box([0,18], width: 120, height: 18) do
+    pdf.table([["PBO NUMBER"]]) do |table|
       table.cells.borders = []
       table.cells.padding = 2
     end
