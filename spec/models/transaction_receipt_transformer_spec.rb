@@ -18,8 +18,8 @@ describe TransactionReceiptTransformer do
     receipt.donor_name.should eql donor.fullname
     receipt.donor_address.should eql [donor.address1, donor.address2, donor.town, donor.postal_code, donor.email]
     receipt.line_items.should eql [
-                                   ["101", "Blah", BigDecimal.new("100.43")],
-                                   ["105", "Bleh", BigDecimal.new("200.13")]
+                                   ["101", "Blah", BigDecimal.new("100.43").to_s],
+                                   ["105", "Bleh", BigDecimal.new("200.13").to_s]
                                   ]
   end
 
