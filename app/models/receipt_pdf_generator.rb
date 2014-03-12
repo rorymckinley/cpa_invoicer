@@ -1,6 +1,10 @@
 class ReceiptPdfGenerator
-  def generate(receipt)
+  def generate(receipt, date)
+    invoice_date = date ? Date.parse(date) : Date.today
+    config = ReceiptPdf::Configuration.new.build_config(receipt, invoice_date)
     pdf = Prawn::Document.new(page_size:  "A4", page_layout: :portrait)
+    ReceiptPdf::Builder.new.build(pdf, config)
+=begin
     pdf.stroke_bounds
     top_edge = pdf.bounds.height
     pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
@@ -212,5 +216,6 @@ class ReceiptPdfGenerator
 
     pdf.encrypt_document permissions: {modify_contents: false}
     pdf.render
+=end
   end
 end

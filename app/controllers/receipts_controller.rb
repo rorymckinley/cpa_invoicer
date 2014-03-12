@@ -22,7 +22,7 @@ class ReceiptsController < ApplicationController
     receipt = Receipt.find(params[:id].to_i)
     generator = ReceiptPdfGenerator.new
     
-    send_data generator.generate(receipt), type: "application/pdf"
+    send_data generator.generate(receipt, params[:invoice_date]), type: "application/pdf"
   end
 end
 

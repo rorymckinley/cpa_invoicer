@@ -10,10 +10,16 @@ describe "Showing the invoice as a PDF" do
                                           ["100016", "ZERO TOLERANCE", "300.00"],
                                           ["100017", "ART AUCTION", "500.00"],
                                           ["100018", "SHOES", "400.00"],
-                                          ["100019", "VET CARE", ]
+                                          ["100019", "VET CARE", "1400.00"],
+                                          ["100025", "BEQUEST", "400.00"],
+                                          ["100028", "APRIL APPEAL", "400.00"],
+                                          ["100029", "GOLF DAY", "400.00"],
+                                          ["100018", "CORPORATE", "400.00"],
+                                          ["100018", "FIRLANDS-STABLING", "400.00"],
+                                          ["100018", "FOOT CARE PROJECT", "400.00"]
                                          ]
 
-    get "receipts/#{receipt.id}"
+    get "receipts/#{receipt.id}", invoice_date: "2014-01-20"
     response.should be_ok
     response.headers["Content-Type"].should eql "application/pdf"
     response.headers["Content-Disposition"].should eql "attachment"
