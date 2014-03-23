@@ -3,32 +3,38 @@ require 'prawn'
 require 'prawn/measurement_extensions'
 
 pdf = Prawn::Document.new(page_size:  "A4", page_layout: :portrait)
-pdf.font "Helvetica", size: 10
+pdf.font_families.update("LiberationMono" => {
+                       :normal => File.join(Rails.root, "lib", "prawn_support", "fonts", "LiberationMono-Regular.ttf"),
+                       :italic => File.join(Rails.root, "lib", "prawn_support", "fonts", "LiberationMono-Italic.ttf"),
+                       :bold => File.join(Rails.root, "lib", "prawn_support", "fonts", "LiberationMono-Bold.ttf"),
+                       :bold_italic => File.join(Rails.root, "lib", "prawn_support", "fonts", "LiberationMono-BoldItalic.ttf"),
+})
+pdf.font "LiberationMono", size: 10
 pdf.stroke_bounds
 top_edge = pdf.bounds.height
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
-  pdf.bounding_box([0, 160], width: 180, height:160) do
+  pdf.bounding_box([0, 160], width: 205, height:160) do
     contact_details = [
       ["Tel:", "021-535 3435"],
       ["Fax:", "021-535 3434"],
       ["Emergency:", "082 659 9599"],
-      ["Email", "info@carthorse.org.za"]
+      ["Email:", "info@carthorse.org.za"]
     ]
     pdf.pad(20) do
-      pdf.table(contact_details, width: 180) do |table|
+      pdf.table(contact_details, width: 205) do |table|
         table.cells.borders = []
         table.cells.padding = 4
       end
     end
   end
-  pdf.bounding_box([180, 160], width: 160, height:120) do
-    pdf.image File.join(Rails.root, "lib", "prawn_support", "chpa_logo_crop.jpg"), position: :center, height: 120
+  pdf.bounding_box([205, 160], width: 113, height:120) do
+    pdf.image File.join(Rails.root, "lib", "prawn_support", "chpa_logo_crop.jpg"), position: :center, width: 113
   end
-  pdf.bounding_box([180, 40], width: 160, height:40) do
+  pdf.bounding_box([205, 40], width: 113, height:40) do
     pdf.pad(10) { pdf.text "005-761 NPO", align: :center }
   end
 
-  pdf.bounding_box([340, 160], width: 183, height:160) do
+  pdf.bounding_box([318, 160], width: 205, height:160) do
     contact_details = [
       ["92 Bofors Circle, Epping 2"],
       ["PO Box 846, Eppindust, 7475"],
@@ -36,7 +42,7 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
       ["www.carthorse.org.za"]
     ]
     pdf.pad(20) do
-      pdf.table(contact_details, width:183) do |table|
+      pdf.table(contact_details, width: 205) do |table|
         table.cells.borders = []
         table.cells.padding = 4
         table.before_rendering_page do |page|
@@ -130,16 +136,16 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
 end
 top_edge -= 18
 line_items = [
-  ["100016", "ZERO TOLERANCE", "R      300.00"],
-  ["100017", "ART AUCTION", "R      500.00"],
-  ["100018", "SHOES", "R      400.00"],
+  ["100016", "ZERO TOLERANCE", "R     300.00"],
+  ["100017", "ART AUCTION", "R     500.00"],
+  ["100018", "SHOES", "R     400.00"],
   ["100019", "VET CARE", "R    1400.00"],
-  ["100025", "BEQUEST", "R      400.00"],
-  ["100028", "APRIL APPEAL", "R      400.00"],
-  ["100029", "GOLF DAY", "R      400.00"],
-  ["100018", "CORPORATE", "R      400.00"],
-  ["100018", "FIRLANDS-STABLING", "R      400.00"],
-  ["100018", "FOOT CARE PROJECT", "R      400.00"],
+  ["100025", "BEQUEST", "R     400.00"],
+  ["100028", "APRIL APPEAL", "R     400.00"],
+  ["100029", "GOLF DAY", "R     400.00"],
+  ["100018", "CORPORATE", "R     400.00"],
+  ["100018", "FIRLANDS-STABLING", "R     400.00"],
+  ["100018", "FOOT CARE PROJECT", "R     400.00"],
 ]
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:290) do
   pdf.bounding_box([0,290], width: 120, height: 290) do

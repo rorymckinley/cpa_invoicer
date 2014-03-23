@@ -81,16 +81,16 @@ describe ReceiptsController do
     
     it "generates a pdf version of the requested invoice" do
       Receipt.should_receive(:find).with(999666).and_return(receipt)
-      @generator.should_receive(:generate).with(receipt, @invoice_date)
+      @generator.should_receive(:generate).with(receipt)
 
-      get :show, id: 999666, invoice_date: @invoice_date
+      get :show, id: 999666
     end
 
     it "returns the generated pdf" do
       Receipt.stub(:find).and_return(receipt)
       @generator.stub(:generate).and_return("pretending to be pdf data")
 
-      get :show, id: 999666, invoice_date: @invoice_date
+      get :show, id: 999666
       
       response.body.should eql "pretending to be pdf data"
       response.headers["Content-Type"].should eql "application/pdf"

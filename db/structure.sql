@@ -71,6 +71,7 @@ CREATE TABLE `receipts` (
   `line_items` text COLLATE utf8_unicode_ci,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
+  `receipt_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -135,7 +136,7 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-03-09 12:58:25
+-- Dump completed on 2014-03-16 21:02:11
 INSERT INTO schema_migrations (version) VALUES ('20131015150746');
 
 INSERT INTO schema_migrations (version) VALUES ('20131019204041');
@@ -151,3 +152,5 @@ INSERT INTO schema_migrations (version) VALUES ('20140216200252');
 INSERT INTO schema_migrations (version) VALUES ('20140222111647');
 
 INSERT INTO schema_migrations (version) VALUES ('20140301204402');
+
+INSERT INTO schema_migrations (version) VALUES ('20140316185806');
