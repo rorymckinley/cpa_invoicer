@@ -1,6 +1,8 @@
 class TransactionReceiptTransformer
   def transform(donor, transactions)
-    Receipt.new receipt_number: generate_receipt_number(donor), donor_name: donor.fullname, donor_address: generate_address(donor), line_items: generate_line_items(transactions)
+    Receipt.new receipt_number: generate_receipt_number(donor), donor_name: donor.fullname,
+                donor_address: generate_address(donor), line_items: generate_line_items(transactions),
+                receipt_date: Date.today
   end
 
   def generate_receipt_number(donor)

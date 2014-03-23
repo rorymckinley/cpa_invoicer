@@ -15,6 +15,7 @@ describe TransactionReceiptTransformer do
     receipt = subject.transform(donor, [transaction_1,transaction_2])
 
     receipt.receipt_number.should eql "#{donor.donor_no}-#{Time.now.strftime("%Y%m%d")}"
+    receipt.receipt_date.should eql Date.today
     receipt.donor_name.should eql donor.fullname
     receipt.donor_address.should eql [donor.address1, donor.address2, donor.town, donor.postal_code, donor.email]
     receipt.line_items.should eql [

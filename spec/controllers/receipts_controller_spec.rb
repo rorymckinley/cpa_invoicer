@@ -73,9 +73,9 @@ describe ReceiptsController do
   end
 
   context "#show" do
-    let(:generator) { ReceiptPdfGenerator.new }
     before(:each) do
       @generator = ReceiptPdfGenerator.new
+      @invoice_date = "2014-01-20"
       ReceiptPdfGenerator.stub(:new).and_return(@generator)
     end
     

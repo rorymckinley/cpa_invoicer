@@ -1,134 +1,40 @@
-require 'rubygems'
-require 'bundler'
-
-Bundler.setup
 
 require 'prawn'
 require 'prawn/measurement_extensions'
 
-
-class Box
-  def initialize(pdf, options)
-    @pdf = pdf
-    @position = options[:position]
-    @dimensions = options[:dimensions]
-  end
-
-  def add_contents(contents)
-    @contents = contents
-  end
-
-  def render
-    @pdf.bounding_box(@position, @dimensions) do
-      @contents.render
-    end
-  end
-  
-end
-
-class Padding
-  def initialize(pdf, options)
-    @pdf = pdf
-    @padding = options[:padding]
-  end
-
-  def add_contents(contents)
-    @contents = contents
-  end
-
-  def render
-    @pdf.pad(@padding) { @contents.render }
-  end
-end
-
-class Table
-  def initialize(pdf, options)
-    @pdf = pdf
-    @width = options[:width]
-    @cell_borders = options[:cell][:borders]
-    @cell_padding = options[:cell][:padding]
-  end
-
-  def add_contents(contents)
-    @contents = contents
-  end
-
-  def render
-    @pdf.table(@contents, width: @width) do |table|
-      table.cells.borders = []
-      table.cells.padding = @cell_padding
-    end
-  end
-end
-contact_details = [
-                   ["Tel:", "021-535 3435"],
-                   ["Fax:", "021-535 3434"],
-                   ["Emergency:", "082 659 9599"],
-                   ["Email:", "info@carthorse.org.za"]
-                  ]
-config = { class: Box, options: { position: [0,160], dimensions: { width: 205, height: 160} }, content: { class: Padding, options: { padding: 20 }, content: { class: Table, options: { width: 205, cell: { borders: false, padding: 4 } }, content: contact_details  }}}
-
-def builder(pdf, config)
-  instance = config[:class].new pdf, config[:options]
-  if config[:content].respond_to? :has_key? and config[:content].has_key? :class
-    instance.add_contents builder(pdf, config[:content])
-  else
-    instance.add_contents config[:content]
-  end
-  instance
-end
-
 pdf = Prawn::Document.new(page_size:  "A4", page_layout: :portrait)
-=begin
-table = Table.new(pdf, width: 180, cell: { borders: false, padding: 4 })
-table.add_contents contact_details
-
-padding = Padding.new(pdf, 20)
-padding.add_contents(table)
-
-box = Box.new(pdf, [0,160], width: 180, height: 160)
-box.add_contents padding
-=end
 pdf.font_families.update("LiberationMono" => {
-                       :normal => File.join(File.dirname(__FILE__), "..", "lib", "prawn_support", "fonts", "LiberationMono-Regular.ttf"),
-                       :italic => File.join(File.dirname(__FILE__), "..", "lib", "prawn_support", "fonts", "LiberationMono-Italic.ttf"),
-                       :bold => File.join(File.dirname(__FILE__), "..", "lib", "prawn_support", "fonts", "LiberationMono-Bold.ttf"),
-                       :bold_italic => File.join(File.dirname(__FILE__), "..", "lib", "prawn_support", "fonts", "LiberationMono-BoldItalic.ttf"),
+                       :normal => File.join(Rails.root, "lib", "prawn_support", "fonts", "LiberationMono-Regular.ttf"),
+                       :italic => File.join(Rails.root, "lib", "prawn_support", "fonts", "LiberationMono-Italic.ttf"),
+                       :bold => File.join(Rails.root, "lib", "prawn_support", "fonts", "LiberationMono-Bold.ttf"),
+                       :bold_italic => File.join(Rails.root, "lib", "prawn_support", "fonts", "LiberationMono-BoldItalic.ttf"),
 })
-box2 = builder(pdf, config)
-
+pdf.font "LiberationMono", size: 10
 pdf.stroke_bounds
 top_edge = pdf.bounds.height
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
-  pdf.font "LiberationMono", size: 10
-  box2.render
-=begin
-  pdf.bounding_box([0, 160], width: 180, height:160) do
-    pdf.font "LiberationMono", size: 10
+  pdf.bounding_box([0, 160], width: 205, height:160) do
     contact_details = [
       ["Tel:", "021-535 3435"],
       ["Fax:", "021-535 3434"],
       ["Emergency:", "082 659 9599"],
-      ["Email", "info@carthorse.org.za"]
+      ["Email:", "info@carthorse.org.za"]
     ]
     pdf.pad(20) do
-      pdf.table(contact_details, width: 180) do |table|
+      pdf.table(contact_details, width: 205) do |table|
         table.cells.borders = []
         table.cells.padding = 4
       end
     end
   end
-=end
-
   pdf.bounding_box([205, 160], width: 113, height:120) do
-    pdf.image "/home/rory/data/git/cpa_invoicer/scripts/chpa_logo_crop.jpg", position: :center, width: 113#, height: 120
+    pdf.image File.join(Rails.root, "lib", "prawn_support", "chpa_logo_crop.jpg"), position: :center, width: 113
   end
   pdf.bounding_box([205, 40], width: 113, height:40) do
     pdf.pad(10) { pdf.text "005-761 NPO", align: :center }
   end
 
   pdf.bounding_box([318, 160], width: 205, height:160) do
-    pdf.font "LiberationMono", size: 10
     contact_details = [
       ["92 Bofors Circle, Epping 2"],
       ["PO Box 846, Eppindust, 7475"],
@@ -149,7 +55,6 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:160) do
 end
 top_edge -= 160
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:50) do
-  pdf.font "LiberationMono", size: 10
   pdf.pad(5) do
     pdf.indent 2 do
       pdf.text "DONATION RECEIPT"
@@ -160,7 +65,6 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:50) do
 end
 top_edge -= 50
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
-  pdf.font "LiberationMono", size: 10
   pdf.bounding_box([0,18], width: 120, height: 18) do
     pdf.table([["RECEIPT NO"]]) do |table|
       table.cells.borders = []
@@ -178,7 +82,6 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
 end
 top_edge -= 18
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
-  pdf.font "LiberationMono", size: 10
   pdf.bounding_box([0,18], width: 120, height: 18) do
     pdf.table([["DONOR NAME"]]) do |table|
       table.cells.borders = []
@@ -197,7 +100,6 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
 end
 top_edge -= 18
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:100) do
-  pdf.font "LiberationMono", size: 10
   pdf.bounding_box([0,100], width: 120, height: 100) do
     pdf.table([["ADDRESS OF DONOR"]]) do |table|
       table.cells.borders = []
@@ -216,7 +118,6 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:100) do
 end
 top_edge -= 100
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
-  pdf.font "LiberationMono", size: 10
   pdf.bounding_box([0,18], width: 120, height: 18) do
     pdf.table([["AMOUNT OF DONATION"]]) do |table|
       table.cells.borders = []
@@ -247,7 +148,6 @@ line_items = [
   ["100018", "FOOT CARE PROJECT", "R     400.00"],
 ]
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:290) do
-  pdf.font "LiberationMono", size: 10
   pdf.bounding_box([0,290], width: 120, height: 290) do
     pdf.table([["NATURE OF DONATION"]]) do |table|
       table.cells.borders = []
@@ -269,7 +169,6 @@ pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:290) do
 end
 top_edge -= 290
 pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:18) do
-  pdf.font "LiberationMono", size: 10
   pdf.bounding_box([0,18], width: 120, height: 18) do
     pdf.table([["PBO NUMBER"]]) do |table|
       table.cells.borders = []
@@ -289,28 +188,28 @@ end
 top_edge -= 18
 pdf.bounding_box([0,top_edge], width: 250, height:98) do
   pdf.bounding_box([0,98], width: 250, height: 80) do
-    pdf.image "/home/rory/data/git/cpa_invoicer/scripts/receipt_signature.jpg", vposition: :bottom, position: :center, height: 40
+    pdf.image File.join(Rails.root, "lib", "prawn_support", "receipt_signature.jpg"), vposition: :bottom, position: :center, height: 40
   end
   pdf.bounding_box([0,18], width: 250, height: 18) do
-    pdf.font "LiberationMono", size: 10
     pdf.text "Title of signatory goes here", align: :center
   end
 end
 pdf.bounding_box([250,top_edge], width: 273, height:98) do
   pdf.bounding_box([0,98], width: 273, height: 80) do
-    pdf.font "LiberationMono", size: 10
     pdf.pad(60) do
       pdf.text "2014-01-20", align: :center
     end
   end
-  pdf.bounding_box([0,18], width: 273, height: 18) do
-    pdf.font "LiberationMono", size: 10
-    pdf.text "Date", align: :center
-  end
+  pr = -> { pdf.text "Date", align: :center }
+  pdf.bounding_box([0,18], {width: 273, height: 18}, &pr)
+#  pdf.bounding_box([0,18], width: 273, height: 18) do
+#    pdf.text "Date", align: :center
+#  end
 end
-#pdf.stroke_axis
+# pdf.stroke_axis
 puts pdf.bounds.width
 puts pdf.bounds.height
 
 pdf.encrypt_document permissions: {modify_contents: false}
-File.open("proto.pdf", "wb") { |f| f.write pdf.render }
+output_file = File.join(File.dirname(__FILE__), "sample.pdf")
+File.open(output_file, "wb") { |f| f.write pdf.render }
