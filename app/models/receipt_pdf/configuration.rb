@@ -4,7 +4,7 @@ module ReceiptPdf
       {
         donor_address: format_address(receipt.donor_address),
         donor_name: [receipt.donor_name],
-        receipt_date: receipt.receipt_date,
+        receipt_date: receipt.receipt_date.to_s,
         line_items: format_line_items(receipt.line_items),
         receipt_total: [format_as_money(total(receipt.line_items).to_s)],
         receipt_number: [receipt.receipt_number]

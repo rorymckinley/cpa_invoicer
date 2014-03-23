@@ -18,7 +18,7 @@ describe ReceiptPdf::Configuration do
       @config[:receipt_number].should eql [@receipt.receipt_number]
     end
     it "includes the receipt date" do
-      @config[:receipt_date].should eql @receipt.receipt_date
+      @config[:receipt_date].should eql @receipt.receipt_date.to_s
     end
     it "includes the receipt total" do
       @config[:receipt_total].should eql ["R     157.47"]
@@ -37,11 +37,5 @@ describe ReceiptPdf::Configuration do
                                        ["c","d","R      57.13"]
                                       ]
     end
-  end
-  it "returns config data for the header" do
-    config = subject.build_config(@receipt)
-    config.should eql({ donor_name: @receipt.donor_name, donor_address: @receipt.donor_address,
-                        receipt_date: @receipt.receipt_date, line_items: @receipt.line_items,
-                        receipt_total: BigDecimal.new("157.47").to_s, receipt_number: @receipt.receipt_number })
   end
 end

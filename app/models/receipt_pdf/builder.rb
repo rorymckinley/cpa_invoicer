@@ -133,18 +133,6 @@ module ReceiptPdf
         pdf.stroke_bounds
       end
       top_edge -= 18
-      line_items = [
-                    ["100016", "ZERO TOLERANCE", "R      300.00"],
-                    ["100017", "ART AUCTION", "R      500.00"],
-                    ["100018", "SHOES", "R      400.00"],
-                    ["100019", "VET CARE", "R    1400.00"],
-                    ["100025", "BEQUEST", "R      400.00"],
-                    ["100028", "APRIL APPEAL", "R      400.00"],
-                    ["100029", "GOLF DAY", "R      400.00"],
-                    ["100018", "CORPORATE", "R      400.00"],
-                    ["100018", "FIRLANDS-STABLING", "R      400.00"],
-                    ["100018", "FOOT CARE PROJECT", "R      400.00"],
-                   ]
       pdf.bounding_box([0,top_edge], width: pdf.bounds.width, height:290) do
         pdf.bounding_box([0,290], width: 120, height: 290) do
           pdf.table([["NATURE OF DONATION"]]) do |table|
@@ -195,7 +183,7 @@ module ReceiptPdf
       pdf.bounding_box([250,top_edge], width: 273, height:98) do
         pdf.bounding_box([0,98], width: 273, height: 80) do
           pdf.pad(60) do
-            pdf.text "2014-01-20", align: :center
+            pdf.text config[:receipt_date], align: :center
           end
         end
         pdf.bounding_box([0,18], width: 273, height: 18) do
