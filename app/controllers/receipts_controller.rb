@@ -25,5 +25,3 @@ class ReceiptsController < ApplicationController
     send_data generator.generate(receipt), type: "application/pdf"
   end
 end
-
-
